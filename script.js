@@ -1,6 +1,5 @@
 "use strict";
 
-
 //fetch the json 
 fetch("classlist.json")
     .then(e => e.json())
@@ -38,4 +37,4 @@ function showPerson(fullName) { //createStudent takes the splitName function, an
 
 showPerson(); //fun the create function
 console.table(students); //show them in tables 
-}
+
