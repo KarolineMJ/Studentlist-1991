@@ -1,14 +1,60 @@
 "use strict";
 
-//read JSON and fetch 
-fetch("classlist.json")
-    .then(result => result.json())
-    .then(studentList)
-
-
 //create an array of objects 
+let eachHouse;
 const students = [];
+let originalSingleList;
 let houseArray = [];
+
+
+//Write data
+const info = {
+    Hufflepuff: [
+        "Hannah Abbot",
+        "Susan Bones",
+        "Justin Finch-Fletchly",
+        "Ernie Macmillian",
+        "Megan Jones",
+        "Wayne Hopkins",
+        "Leanne -unknown-"
+    ],
+
+    Gryffindor: [
+        "Lavender Brown",
+        "Seamus Finnigan",
+        "Hermione Granger ",
+        "Neville Longbottom",
+        "Parvati Patil",
+        "Harry Potter",
+        "Dean Thomas",
+        "Ron Weasley"
+    ],
+
+    Ravenclaw: [
+        "Terry Boot",
+        "Mandy Brocklehurst",
+        "Padma Patil",
+        "Lisa Turpin",
+        "Stephen Cornfoot",
+        "Anthony Goldstein",
+        "Michael Corner",
+        "Kevin Entwistle",
+        "Sue Li"
+    ],
+
+    Slytherin: [
+        "Draco Malfoy",
+        "Vincent Crabbe",
+        "Gregory Goyle",
+        "Pansy Parkinson",
+        "Millicent Bulstrode",
+        "Theodore Nott",
+        "Daphne Greengrass",
+        "Blais Zabini"
+    ]
+};
+
+
 
 //create single object 
 const student = {
@@ -16,19 +62,46 @@ const student = {
     lastName: "",
     houseName: "",
     toString() {
-        return this.firstName + " " + this.lastName;
+        return "f:" + this.firstName + "l:" + this.lastName + "add:" + this.adress;
     },
     splitName(fullName) {
-        const firstSpace = fullName.indexOf(" "); //from the constant student, create a string, which is split 
-        this.firstName = fullName.substring(0, firstSpace);
-        this.lastName = fullName.substring(firstSpace + 1);
+        this.firstName = fullName.substring(0, fullName.indexOf(" "));
+        this.lastName = fullName.substring(fullName.indexOf(" ") + 1);
 
     },
     getHouse(h) {
         this.houseName = h;
     }
+};
+
+function buildHouseArray(house) {
+    eachHouse = house;
+    let eachHouseArray = info[house];
+    eachHouseArray.forEach(addHouseNameToEachStudent);
 }
 
+function addHouseNameToEachStudent(fullName) {
+    let newStudentObject = Object.create(student);
+    newStudentObject.splitName(fullName);
+    newStudentObject.getHouse(eachHouse);
+    students.push(newStudentObject);
+}
+
+/////////////////////////////////////
+// part 1
+function generateNewList() {
+    const houseNameS = Object.keys(info);
+    houseNameS.forEach(buildHouseArray);
+    originalSingleList = students;
+    //console.table(originalSingleList);
+}
+generateNewList();
+
+// part 2: sort by firstName
+console.table(students.sort()); // already working without function for the sort() !!! sort by first property by default???
+
+
+/*
 //forEach student in house 
 function studentList(data) {
     console.table(data);
@@ -52,7 +125,8 @@ function showPerson(fullName) { //createStudent takes the splitName function, an
     //newStudent.getHouse()
     students.push(newStudent); //puts it into an empty array
 }
-
+*/
+/*
 showPerson(); //fun the create function
 console.table(students); //show them in tables 
-
+*/
