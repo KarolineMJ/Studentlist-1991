@@ -6,23 +6,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
 <body>
 
-    <div id="person">
+    <section id="buttons">
+        <div id="sorting">
+            Sort by:
+            <button id="sort_first">Firstname</button>
+            <button id="sort_last">Lastname</button>
+            <button id="sort_house">House</button>
+        </div>
+        <div id="filters">
+            Filter:
+            <a href="#" data-filter="all">All</a>
+            <a href="#" data-filter="Gryffindor">Gryffindor</a>
+            <a href="#" data-filter="Hufflepuff">Hufflepuff</a>
+            <a href="#" data-filter="Ravenclaw">Ravenclaw</a>
+            <a href="#" data-filter="Slytherin">Slytherin</a>
+        </div>
+    </section>
 
-    </div>
+    <table id="studentList">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>House</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- tr = table row-->
+            <tr>
+                <td>Harry</td>
+                <td>Potter</td>
+                <td>Gryffindor</td>
+                <th><button>Delete</button></th>
+            </tr>
+            <tr>
+                <td>Harry</td>
+                <td>Potter</td>
+                <td>Gryffindor</td>
+                <th><button>Delete</button></th>
+            </tr>
+            <tr>
+                <td>Harry</td>
+                <td>Potter</td>
+                <td>Gryffindor</td>
+                <th><button>Delete</button></th>
+            </tr>
 
-    <template class="personTemp">
-        <article>
-            <h2 class="firstName">Firstname goes here</h2>
-            <h2 class="lastName">Lastname goess here</h2>
-        </article>
+        </tbody>
+    </table>
+
+    <template id="studentTemp">
+        <tr>
+            <td data-firstname>Harry</td>
+            <td data-lastname>Potter</td>
+            <td data-housename>Gryffindor</td>
+            <th><button>Delete</button></th>
+        </tr>
     </template>
 
+
+
+    <h1>By first name</h1>
+    <ol id="first">
+
+    </ol>
+    <h1>By last name</h1>
+    <ol id="last">
+
+    </ol>
+    <script src="script.js"></script>
+    <script src="frontend.js"></script>
 </body>
-<script src="script.js"></script>
 
 </html>
