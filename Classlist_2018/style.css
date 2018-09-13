@@ -18,6 +18,16 @@
     height: 15px;
   }
 
+  .person-btn{
+    width: 30px;
+    height: 30px;
+  }
+  .person-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+
  button{ 
     border:none; 
     background: none;  
@@ -64,4 +74,28 @@ body {font-family: Arial, Helvetica, sans-serif;}
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+button:focus {
+    outline:none;
+}
+
+
+
+#sorting{
+    padding: 7px;
+    font-size: 13px;
+    font-weight: bold;
 }

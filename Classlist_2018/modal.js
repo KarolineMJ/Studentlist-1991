@@ -1,16 +1,25 @@
 "use strict";
 
 // Get the modal
-let modal = document.getElementById('myModal');
+const modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
-let btn = document.querySelector(".information-btn");
+let informationBTN = document.querySelectorAll(".information-svg");
+
+informationBTN.forEach(infoBTN => {
+    infoBTN.addEventListener("click", clickedOpen)
+    function clickedOpen() {
+        console.log("clicked");
+        modal.style.display = "block";
+    }
+
+})
 
 // Get the <span> element that closes the modal
 let span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal 
-btn.onclick = function () {
+informationBTN.onclick = function () {
     console.log("btn clicked");
     modal.style.display = "block";
 }
