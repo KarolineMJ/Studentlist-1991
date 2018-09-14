@@ -92,10 +92,17 @@ button:focus {
     outline:none;
 }
 
-
-
 #sorting{
     padding: 7px;
     font-size: 13px;
     font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.information-svg{
+    pointer-events: none;
+}
+
+.delete-svg{
+    pointer-events: none;
 }

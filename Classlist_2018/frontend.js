@@ -12,7 +12,34 @@ function initFrontend() {
 
     document.querySelector("button#sort_last").addEventListener("click", clickedSortLastname);
 
+    document.querySelector("table#studentList").addEventListener("click", clickedTable);
 }
+
+function clickedTable(event) {
+    console.log("clicked table");
+    console.log(event.target);
+
+    const clicked = event.target;
+    console.log(clicked.tagName);
+    if (clicked.tagName === "BUTTON") {
+        //note: when we have more buttons, check which kind was clicked(on class or something)
+        clickedDelete(clicked);
+    };
+
+}
+function clickedDelete(deleteButton) {//deleteButton in this case is the same as event.target
+    console.log(deleteButton);
+
+    //find the <tr> that has this deleteButton inside it
+    let tr = deleteButton.parentElement;
+    while (tr.tagName !== "TR") {
+        tr = tr.parentElement;
+    }
+
+    //remove that <tr> 
+    tr.remove();
+
+};
 
 function clickedSortFirstname() {
     console.log("clickSortFirstname");
@@ -48,6 +75,29 @@ function displayList(listOfStudents) {
         clone.querySelector("[data-middlename]").textContent = student.middleName;
         clone.querySelector("[data-lastname]").textContent = student.lastName;
 
+
+
+        // Get the modal
+        const modal = document.querySelector('#myModal');
+
+        // Get the button that opens the modal
+        clone.querySelector(".information-btn").addEventListener("click", () => {
+            console.log("btn clicked");
+            modal.style.display = "block";
+
+        });
+        // When the user clicks on <span> (x), close the modal
+        let closeBTN = document.querySelector(".close");
+        closeBTN.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
         // append clone to table 
         document.querySelector("table#studentList tbody").appendChild(clone);

@@ -1,7 +1,7 @@
 "use strict";
 
 // Get the modal
-const modal = document.getElementById('myModal');
+const modal = document.querySelector('#myModal');
 
 // Get the button that opens the modal
 let informationBTN = document.querySelectorAll(".information-svg");
