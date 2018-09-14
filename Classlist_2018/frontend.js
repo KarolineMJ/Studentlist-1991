@@ -3,7 +3,7 @@
 window.addEventListener("DOMContentLoaded", initFrontend);
 
 function initFrontend() {
-    console.log("frontend is working");
+    //console.log("frontend is working");
 
     //register buttons for sort 
     document.querySelector("button#sort_first").addEventListener("click", clickedSortFirstname);
@@ -16,19 +16,22 @@ function initFrontend() {
 }
 
 function clickedTable(event) {
-    console.log("clicked table");
-    console.log(event.target);
+    //console.log("clicked table");
+    //console.log(event.target);
 
     const clicked = event.target;
-    console.log(clicked.tagName);
+    //console.log(clicked.tagName);
     if (clicked.tagName === "BUTTON") {
         //note: when we have more buttons, check which kind was clicked(on class or something)
-        clickedDelete(clicked);
+        if (clicked.classList.contains("delete-btn")) {
+            clickedDelete(clicked);
+        }
+
     };
 
 }
 function clickedDelete(deleteButton) {//deleteButton in this case is the same as event.target
-    console.log(deleteButton);
+    //console.log(deleteButton);
 
     //find the <tr> that has this deleteButton inside it
     let tr = deleteButton.parentElement;
@@ -36,25 +39,31 @@ function clickedDelete(deleteButton) {//deleteButton in this case is the same as
         tr = tr.parentElement;
     }
 
+    //find the studentId
+    const studentId = tr.dataset.studentId;
+    //console.log(studentId);
+
+    deleteStudent(studentId);
+
     //remove that <tr> 
     tr.remove();
 
 };
 
 function clickedSortFirstname() {
-    console.log("clickSortFirstname");
+    //console.log("clickSortFirstname");
     sortByFirstname();
     displayList(currentStudents);
 }
 
 function clickedSortMiddlename() {
-    console.log("clickSortMiddlename");
+    //console.log("clickSortMiddlename");
     sortByMiddlename();
     displayList(currentStudents);
 }
 
 function clickedSortLastname() {
-    console.log("clickSortLastname");
+    //console.log("clickSortLastname");
     sortByLastname();
     displayList(currentStudents);
 }
@@ -75,6 +84,8 @@ function displayList(listOfStudents) {
         clone.querySelector("[data-middlename]").textContent = student.middleName;
         clone.querySelector("[data-lastname]").textContent = student.lastName;
 
+        //add the studentId to the <tr>
+        clone.querySelector("tr").dataset.studentId = student.id;
 
 
         // Get the modal

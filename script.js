@@ -33,7 +33,9 @@ function createList(data) {
             let temp = Object.create(studentTemp); //create an object which contains the studentTemp
             temp.splitName(person); //use temp to split name into first and last name (splitName function is inside studentTemp)
             temp.houseName = house; //by using the keys, assign house name to temp
+
             allStudents.push(temp); //pushes the new content into the empty array students.
+
         });
     });
 

@@ -17,7 +17,7 @@ function fetchStudents() {
 function createList(data) {
 
     const nameValues = Object.values(data); //get names
-    console.log(nameValues);
+    //console.log(nameValues);
     let myStudents = []; //global empty array for all the names
     nameValues.forEach(list => {
         myStudents = myStudents.concat(list); //concat names - function creates a list, and for each name value, concatenate the arrays into one array called allStudents
@@ -26,6 +26,12 @@ function createList(data) {
     nameValues.forEach(person => {
         let temp = Object.create(studentTemp); //create an object which contains the studentTemp
         temp.splitName(person); //use temp to split name into first and last name (splitName function is inside studentTemp)
+
+        //assign this student a unique id 
+        //temp.id = "" + allStudents.length;
+
+        temp.id = generateUUID();
+
         allStudents.push(temp); //pushes the new content into the empty array students.
     });
     currentStudents = allStudents;
@@ -34,6 +40,39 @@ function createList(data) {
 
     console.table(allStudents);
 }
+
+//function that generates unique id 
+//from: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript/8809472#8809472
+function generateUUID() { // Public Domain/MIT
+    let d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+        d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        let r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
+function deleteStudent(studentId) {
+    //find the index of the student with the studentId
+    //console.log("break here")
+    const index = allStudents.findIndex(findStudentId);
+    //console.log("Found index: " + index);
+
+    allStudents.splice(index, 1);
+
+    //function that returns true when student.id == studentId
+    function findStudentId(student) {
+        if (student.id === studentId) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+};
 
 function sortByFirstname() {
     //function that sorts by first name by seeing if a (the first object) is smaller than b(the second object) (watch robot video)
