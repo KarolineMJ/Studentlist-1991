@@ -4,57 +4,75 @@
 let allStudents = [];
 let currentStudents = [];
 
+
 //fetch students
 function fetchStudents() {
     fetch("classlist.json")
         .then(result => result.json())
         .then(createList);
 
-    //displayList(students);
 }
 
 //create data and concatenate
 function createList(data) {
 
     const nameValues = Object.values(data); //get names
-    console.log(nameValues);
+    //console.log(nameValues);
     let myStudents = []; //global empty array for all the names
     nameValues.forEach(list => {
         myStudents = myStudents.concat(list); //concat names - function creates a list, and for each name value, concatenate the arrays into one array called allStudents
     });
 
-    const houses = Object.keys(data); //get houses (keys)
-    console.log(houses);
+    nameValues.forEach(person => {
+        let temp = Object.create(studentTemp); //create an object which contains the studentTemp
+        temp.splitName(person); //use temp to split name into first and last name (splitName function is inside studentTemp)
 
-    //looping through the students and houses and pushes it into an empty array
-    houses.forEach((house, index) => {
-        //loop through the keys(houses), ask jonas what happens
-        nameValues[index].forEach(person => {
-            let temp = Object.create(studentTemp); //create an object which contains the studentTemp
-            temp.splitName(person); //use temp to split name into first and last name (splitName function is inside studentTemp)
-            temp.houseName = house; //by using the keys, assign house name to temp
+        //assign this student a unique id 
+        //temp.id = "" + allStudents.length;
 
-            allStudents.push(temp); //pushes the new content into the empty array students.
+        temp.id = generateUUID();
 
-        });
+        allStudents.push(temp); //pushes the new content into the empty array students.
     });
-
-
     currentStudents = allStudents;
-    /*
 
-    //start method sort and function show to sort and display students by first and last name
-    const byFirstName = students.sort(sortByFirstName); //sort students by first name
-    show(byFirstName, "#first"); //run function show(), which displays the sorted list by first name
-    console.table(byFirstName);
-    const byLastName = students.sort(sortByLastName); //sort students by last name
-    show(byLastName, "#last"); //run function show(), which displays the sorted list by last name
-    console.table(byLastName);
-        */
+    displayList(allStudents);
 
-    const byHouseName = allStudents.sort(byHouseAndFirstName);
-    console.table(byHouseName);
+    console.table(allStudents);
 }
+
+//function that generates unique id 
+//from: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript/8809472#8809472
+function generateUUID() { // Public Domain/MIT
+    let d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+        d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        let r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
+function deleteStudent(studentId) {
+    //find the index of the student with the studentId
+    //console.log("break here")
+    const index = allStudents.findIndex(findStudentId);
+    //console.log("Found index: " + index);
+
+    allStudents.splice(index, 1);
+
+    //function that returns true when student.id == studentId
+    function findStudentId(student) {
+        if (student.id === studentId) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+};
 
 function sortByFirstname() {
     //function that sorts by first name by seeing if a (the first object) is smaller than b(the second object) (watch robot video)
@@ -71,6 +89,20 @@ function sortByFirstname() {
 
 }
 
+
+function sortByMiddlename() {
+    function byMiddleName(a, b) {
+        if (a.middleName < b.middleName) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+    allStudents.sort(byMiddleName);
+
+
+}
+
 function sortByLastname() {
     //function that sorts by last name by seeing if a (the first object) is smaller than b(the second object) (watch robot video)
     function byLastName(a, b) {
@@ -83,41 +115,6 @@ function sortByLastname() {
     allStudents.sort(byLastName);
 }
 
-//function that shows the data in the html. Selector is replaced with id from html (look at line 46 and 48)
-function show(data, selector) {
-    data.forEach(person => {
-        const li = document.createElement("li"); //creates listed items for each of the persons
-        li.textContent = person; //adds text content from person into the li (the names and house)
-        document.querySelector(selector).appendChild(li); //append the data into #first and #last in html
-    });
-}
-
-function byHouseAndFirstName(a, b) {
-    if (a.houseName < b.houseName) {
-        return -1;
-    } else if (a.houseName > b.houseName) {
-        return 1;
-    } else {
-        if (a.firstName < b.firstName) {
-            return -1;
-        } else {
-            return 1;
-        }
-    }
-}
-
-function filterByHouse(houses) {
-    const filteredStudents = allStudents.filter(byHouse);
-
-    function byHouse(students) {
-        if (students.houseName === houses) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    return filteredStudents;
-}
 
 //call the function fetchStudents
 fetchStudents();
@@ -125,16 +122,18 @@ fetchStudents();
 //Student template
 const studentTemp = {
     firstName: "", //insert first name
+    middleName: "", //insert middle name
     lastName: "", //insert last name
-    houseName: "", //insert house name
     toString() {
         //converts to string and adds the objects of what it is running through
-        return this.firstName + " " + this.lastName + " from " + this.houseName;
+        return this.firstName + " " + this.middleName + " " + this.lastName;
     },
     splitName(fullName) {
         //splits the name into first and last
         const firstSpace = fullName.indexOf(" ");
+        const lastSpace = fullName.lastIndexOf(" ");
         this.firstName = fullName.substring(0, firstSpace);
-        this.lastName = fullName.substring(firstSpace + 1);
+        this.middleName = fullName.substring(firstSpace + 1, lastSpace);
+        this.lastName = fullName.substring(lastSpace + 1);
     }
 };
